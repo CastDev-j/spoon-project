@@ -87,7 +87,10 @@ export const UpsertForm = () => {
     const handler = (e: Event) => {
       const { name, quantity } = (e as CustomEvent).detail;
       setValue("name", name, { shouldDirty: true, shouldValidate: true });
-      setValue("quantity", quantity, { shouldDirty: true, shouldValidate: true });
+      setValue("quantity", quantity, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
       lastSelectedRef.current = name;
       setSelected(true);
     };
@@ -130,8 +133,14 @@ export const UpsertForm = () => {
 
   const handleSelect = useCallback(
     (article: { name: string; quantity: number }) => {
-      setValue("name", article.name, { shouldDirty: true, shouldValidate: true });
-      setValue("quantity", article.quantity, { shouldDirty: true, shouldValidate: true });
+      setValue("name", article.name, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      setValue("quantity", article.quantity, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
       lastSelectedRef.current = article.name;
       setSelected(true);
       setShowSuggestions(false);
@@ -186,7 +195,7 @@ export const UpsertForm = () => {
               {...register("name", { required: true })}
             />
             {showSuggestions && (
-              <ul className="absolute z-10 mt-1 w-full rounded-2xl border border-jeton-red/20 bg-canvas-white shadow-md max-h-32 overflow-y-auto">
+              <ul className="absolute z-10 mt-1 w-full rounded-2xl border border-jeton-red/20 bg-canvas-white shadow-md max-h-44 overflow-y-auto">
                 {suggestions.map((article) => (
                   <li
                     key={article.name}
