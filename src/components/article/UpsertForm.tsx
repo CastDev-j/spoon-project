@@ -7,16 +7,17 @@ import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 import { cn } from "@/lib/cn";
 import { articleSchemaZod } from "@/interface/article";
+import { useStore } from "better-auth/react";
+import { currentArticlesPage, inputArticle } from "@/store/admin";
 
 interface FormFieldProps {
   label: string;
   id: string;
   error?: { message?: string };
-  dirty: boolean;
   children: React.ReactNode;
 }
 
-const FormField = ({ label, id, error, dirty, children }: FormFieldProps) => (
+const FormField = ({ label, id, error, children }: FormFieldProps) => (
   <div className="text-sm flex flex-col gap-0.5">
     <label htmlFor={id} className="font-medium text-red-velvet/80">
       {label}
@@ -34,6 +35,8 @@ const FormField = ({ label, id, error, dirty, children }: FormFieldProps) => (
 );
 
 export const UpsertForm = () => {
+  const $inputArticle = useStore(inputArticle);
+
   const {
     register,
     handleSubmit,
@@ -45,7 +48,6 @@ export const UpsertForm = () => {
       errors,
       isSubmitting,
       isValid,
-      isDirty,
       isSubmitSuccessful,
       dirtyFields,
     },
@@ -84,19 +86,19 @@ export const UpsertForm = () => {
   }, [nameValue]);
 
   useEffect(() => {
-    const handler = (e: Event) => {
-      const { name, quantity } = (e as CustomEvent).detail;
-      setValue("name", name, { shouldDirty: true, shouldValidate: true });
-      setValue("quantity", quantity, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-      lastSelectedRef.current = name;
-      setSelected(true);
-    };
-    window.addEventListener("articles:edit", handler);
-    return () => window.removeEventListener("articles:edit", handler);
-  }, [setValue]);
+    if (!$inputArticle) return;
+
+    setValue("name", $inputArticle.name, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    setValue("quantity", $inputArticle.quantity, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    lastSelectedRef.current = $inputArticle.name;
+    setSelected(true);
+  }, [setValue, $inputArticle]);
 
   useEffect(() => {
     if (selected || !nameValue || nameValue.length < 2) {
@@ -175,16 +177,15 @@ export const UpsertForm = () => {
             });
             return;
           }
+          const currentArticlePageCopy = currentArticlesPage.get();
 
-          window.dispatchEvent(new CustomEvent("articles:change"));
+          currentArticlesPage.set({
+            ...currentArticlePageCopy,
+            version: currentArticlePageCopy.version + 1,
+          });
         })}
       >
-        <FormField
-          label="Nombre"
-          id="name"
-          error={errors.name}
-          dirty={!!dirtyFields.name}
-        >
+        <FormField label="Nombre" id="name" error={errors.name}>
           <div ref={wrapperRef} className="relative">
             <Input
               id="name"
@@ -215,12 +216,7 @@ export const UpsertForm = () => {
           </div>
         </FormField>
 
-        <FormField
-          label="Cantidad"
-          id="quantity"
-          error={errors.quantity}
-          dirty={!!dirtyFields.quantity}
-        >
+        <FormField label="Cantidad" id="quantity" error={errors.quantity}>
           <Input
             id="quantity"
             placeholder="0"
