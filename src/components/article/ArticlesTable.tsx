@@ -72,13 +72,18 @@ export const ArticlesTable = () => {
       </div>
 
       {loading && !data && (
-        <div className="p-5 space-y-3 flex-1">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="h-8 bg-jeton-red/5 rounded-lg animate-pulse"
-            />
-          ))}
+        <div className="flex-1">
+          <div className="px-5 py-3.5 border-b border-jeton-red/10">
+            <div className="h-3 w-16 bg-jeton-red/10 rounded animate-pulse" />
+          </div>
+          <div className="p-5 space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="flex items-center justify-between">
+                <div className="h-4 w-32 bg-jeton-red/5 rounded animate-pulse" />
+                <div className="h-4 w-10 bg-jeton-red/5 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
