@@ -33,3 +33,7 @@ bunx wrangler d1 migrations apply spoon_project --local
 # Remote database
 bunx wrangler d1 migrations apply spoon_project --remote
 ```
+
+## Documentation
+
+[Spoon Project Documentation](https://deepwiki.com/CastDev-j/spoon-project)
