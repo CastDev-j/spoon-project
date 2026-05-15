@@ -1,7 +1,7 @@
 import { z } from "astro/zod";
 import { db } from "@/db";
 import { article as articleSchema } from "@/db/schema";
-import { and, asc, count, desc, eq, like } from "drizzle-orm";
+import { asc, count, eq, like } from "drizzle-orm";
 import { defineAction, ActionError } from "astro:actions";
 import { articleSchemaZod } from "@/interface/article";
 
@@ -14,7 +14,9 @@ export const article = {
     }),
     handler: async ({ keyword, page = 1, pageSize = 10 }) => {
       const offset = (page - 1) * pageSize;
-      const where = keyword ? like(articleSchema.name, `%${keyword}%`) : undefined;
+      const where = keyword
+        ? like(articleSchema.name, `%${keyword}%`)
+        : undefined;
 
       const articles = await db.query.article.findMany({
         where,

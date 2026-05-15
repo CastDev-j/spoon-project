@@ -86,7 +86,7 @@ const TableRow = ({ article, onRowClick, onDeleteClick }: TableRowProps) => (
     <td
       className={cn(
         "px-5 py-2.5 text-red-velvet/70 tabular-nums",
-        article.quantity <= 5 && "text-fiery-rose/70font-bold",
+        article.quantity <= 5 && "text-fiery-rose/70 font-bold",
       )}
     >
       {article.quantity}
