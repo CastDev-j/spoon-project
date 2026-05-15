@@ -16,8 +16,8 @@ export default defineConfig({
     fonts: [
         {
             provider: fontProviders.google(),
-            name: 'Roboto',
-            cssVariable: '--font-roboto',
+            name: 'Inter',
+            cssVariable: '--font-sequel-sans',
             styles: ["normal"]
         }
     ],

@@ -19,13 +19,11 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <Font cssVariable="--font-roboto" preload />
-    <title>{title || "Testing astro"}</title>
+    <Font cssVariable="--font-sequel-sans" preload />
+    <title>{title || "Jeton — Gestión de Artículos"}</title>
     <ClientRouter />
   </head>
   <body class={cn("min-h-dvh w-full flex flex-col items-center")}>
-    <div class="w-full max-w-5xl px-4 py-2 flex-1">
-      <slot />
-    </div>
+    <slot />
   </body>
 </html>
