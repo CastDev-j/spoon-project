@@ -1,10 +1,30 @@
-migrate the database and generate the Prisma Client:
+# Spoon Project
+
+## Setup
+
+```bash
+cp .env.template .env
+```
+
+```bash
+bun install
+```
+
+## Development
+
+```bash
+bun run dev
+```
+
+## Database Setup
+
+### Generate drizzle client
 
 ```bash
 bunx drizzle-kit generate
 ```
 
-realize the migration:
+### Apply Migrations
 
 ```bash
 # Local database
